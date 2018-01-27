@@ -81,7 +81,7 @@ public class WalletMain extends Application {
         }
 
         // Load the GUI. The WalletMainController class will be automagically created and wired up.
-        URL location = getClass().getResource("main.fxml");
+        URL location = getClass().getResource("/wallet/bitcoinWalletMain.fxml");
         FXMLLoader loader = new FXMLLoader(location);
         mainUI = loader.load();
         controller = loader.getController();
@@ -94,7 +94,7 @@ public class WalletMain extends Application {
         uiStack = new StackPane();
         Scene scene = new Scene(uiStack);
         TextFieldValidator.configureScene(scene);   // Add CSS that we need.
-        scene.getStylesheets().add(getClass().getResource("wallet.css").toString());
+        scene.getStylesheets().add(getClass().getResource("/wallet/bitcoinWallet.css").toString());
         uiStack.getChildren().add(notificationBar);
         mainWindow.setScene(scene);
 
