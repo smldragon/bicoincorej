@@ -44,7 +44,7 @@ public class TextFieldValidator {
     }
 
     public static void configureScene(Scene scene) {
-        final String file = TextFieldValidator.class.getResource("text-validation.css").toString();
+        final String file = TextFieldValidator.class.getResource("/wallet/textValidation.css").toString();
         scene.getStylesheets().add(file);
     }
 }

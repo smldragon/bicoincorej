@@ -39,7 +39,7 @@ public class GuiUtils {
             // an odd sort of way.
             Stage dialogStage = new Stage();
             dialogStage.initModality(Modality.APPLICATION_MODAL);
-            FXMLLoader loader = new FXMLLoader(GuiUtils.class.getResource("alert.fxml"));
+            FXMLLoader loader = new FXMLLoader(GuiUtils.class.getResource("/wallet/alert.fxml"));
             Pane pane = loader.load();
             AlertWindowController controller = loader.getController();
             setup.accept(dialogStage, controller);

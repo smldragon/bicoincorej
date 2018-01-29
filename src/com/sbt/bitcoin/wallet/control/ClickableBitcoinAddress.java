@@ -61,7 +61,7 @@ public class ClickableBitcoinAddress extends AnchorPane {
 
     public ClickableBitcoinAddress() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("bitcoin_address.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/wallet/bitcoinAddress.fxml"));
             loader.setRoot(this);
             loader.setController(this);
             // The following line is supposed to help Scene Builder, although it doesn't seem to be needed for me.
@@ -147,6 +147,11 @@ public class ClickableBitcoinAddress extends AnchorPane {
         pane.setMaxSize(qrImage.getWidth(), qrImage.getHeight());
         final WalletMain.OverlayUI<ClickableBitcoinAddress> overlay = WalletMain.instance.overlayUI(pane, this);
         view.setOnMouseClicked(event1 -> overlay.done());
+    }
+    public static void main(String [] argc) {
+
+        int a = 2;
+        System.out.println( (a&1));
     }
 }
 

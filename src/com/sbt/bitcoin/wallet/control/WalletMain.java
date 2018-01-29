@@ -94,7 +94,7 @@ public class WalletMain extends Application {
         uiStack = new StackPane();
         Scene scene = new Scene(uiStack);
         TextFieldValidator.configureScene(scene);   // Add CSS that we need.
-        scene.getStylesheets().add(getClass().getResource("/wallet/bitcoinWallet.css").toString());
+        scene.getStylesheets().add(getClass().getResource("/wallet/wallet.css").toString());
         uiStack.getChildren().add(notificationBar);
         mainWindow.setScene(scene);
 

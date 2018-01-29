@@ -22,8 +22,11 @@ import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
+import javafx.beans.binding.StringBinding;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
@@ -32,11 +35,16 @@ import org.bitcoinj.core.Coin;
 import org.bitcoinj.core.listeners.DownloadProgressTracker;
 import org.bitcoinj.utils.MonetaryFormat;
 
+import java.net.URL;
+import java.util.ResourceBundle;
+
+import static com.sbt.bitcoin.wallet.control.WalletMain.bitcoin;
+
 /**
  * Gets created auto-magically by FXMLLoader via reflection. The widget fields are set to the GUI controls they're named
  * after. This class handles all the updates and event handling for the main UI.
  */
-public class WalletMainController {
+public class WalletMainController implements Initializable {
     public HBox controlsBox;
     public Label balance;
     public Button sendMoneyOutBtn;
@@ -45,6 +53,10 @@ public class WalletMainController {
     private BitcoinUIModel model = new BitcoinUIModel();
     private NotificationBarPane.Item syncItem;
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        initialize();
+    }
     // Called by FXMLLoader.
     public void initialize() {
         addressControl.setOpacity(0.0);
@@ -53,11 +65,19 @@ public class WalletMainController {
     public void onBitcoinSetup() {
         model.setWallet(bitcoin.wallet());
         addressControl.addressProperty().bind(model.addressProperty());
-        balance.textProperty().bind(EasyBind.map(model.balanceProperty(), coin -> MonetaryFormat.BTC.noCode().format(coin).toString()));
+//        balance.textProperty().bind(EasyBind.map(model.balanceProperty(), coin -> {
+//            return MonetaryFormat.BTC.noCode().format(coin).toString();
+//        }));
+        balance.textProperty().bind(new StringBinding() {
+            @Override
+            protected String computeValue() {
+                return MonetaryFormat.BTC.noCode().format(model.balanceProperty().get()).toString();
+            }
+        });
         // Don't let the user click send money when the wallet is empty.
         sendMoneyOutBtn.disableProperty().bind(model.balanceProperty().isEqualTo(Coin.ZERO));
 
-        TorClient torClient = WalletMain.bitcoin.peerGroup().getTorClient();
+        TorClient torClient = bitcoin.peerGroup().getTorClient();
         if (torClient != null) {
             SimpleDoubleProperty torProgress = new SimpleDoubleProperty(-1);
             String torMsg = "Initialising Tor";
@@ -103,9 +123,9 @@ public class WalletMainController {
         // Hide this UI and show the send money UI. This UI won't be clickable until the user dismisses send_money.
         WalletMain.instance.overlayUI("send_money.fxml");
     }
-
+    @FXML
     public void settingsClicked(ActionEvent event) {
-        WalletMain.OverlayUI<WalletSettingsController> screen = WalletMain.instance.overlayUI("wallet_settings.fxml");
+        WalletMain.OverlayUI<WalletSettingsController> screen = WalletMain.instance.overlayUI("walletSettings.fxml");
         screen.controller.initialize(null);
     }
 
