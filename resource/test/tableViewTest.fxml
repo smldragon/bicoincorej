@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?scenebuilder-classpath-element ../../../../target/classes?>
+<?scenebuilder-classpath-element ../../../../../core/target/bitcoinj-0.12-SNAPSHOT.jar?>
+
+<?import com.sbt.component.SbtGridPane?>
+<?import com.sbt.component.table.SbtTableView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.text.Font?>
+
+<SbtGridPane alignment="center" hgap="10.0" vgap="10.0" prefHeight="800" prefWidth="1200"
+             styleClass="root-pane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+             fx:controller="com.sbt.test.TableViewTestController">
+
+    <padding>
+        <Insets bottom="10.0" left="10.0" right ="10.0" top="10.0"/>
+    </padding>
+
+    <Label GridPane.columnIndex="0" GridPane.rowIndex="0" layoutX="14.0" layoutY="14.0" text="Balance">
+        <font>
+            <Font name="System Bold" size="25.0" fx:id="x1" />
+        </font>
+    </Label>
+    <SbtTableView GridPane.columnIndex="0" GridPane.rowIndex="1" fx:id="testTable" >
+
+            <columns>
+                <TableColumn fx:id="col1Column" text="First Column" prefWidth="150">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="col1" />
+                    </cellValueFactory>
+                    <cellFactory>
+                        <!-- FormattedTableCellFactory alignment="center">
+                        </FormattedTableCellFactory -->
+                    </cellFactory>
+                </TableColumn>
+                <TableColumn fx:id="col2Column" text="Second Column" prefWidth="150">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="col2" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn fx:id="col3Column" text="Third Column" prefWidth="150">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="col3" />
+                    </cellValueFactory>
+                </TableColumn>
+            </columns>
+    </SbtTableView>
+</SbtGridPane>
