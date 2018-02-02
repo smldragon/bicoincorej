@@ -5,7 +5,9 @@ import java.util.function.BiFunction;
 
 public class SbtTableRowStatus implements Serializable{
 
-    public static final SbtTableRowStatus Normal = new SbtTableRowStatus("","",null,false);
+    public static final SbtTableRowStatus Normal = new SbtTableRowStatus("",false);
+    public static final SbtTableRowStatus Edited = new SbtTableRowStatus("*",true);
+    public static final SbtTableRowStatus Transmitting = new SbtTableRowStatus("...",false);
     private static final BiFunction<Integer, SbtTableRowStatus , String> errorDisplayConstructor;
 
     static {
@@ -16,6 +18,9 @@ public class SbtTableRowStatus implements Serializable{
         SbtTableRowStatus rtn = new SbtTableRowStatus("Error",errMsg,"red",true);
         rtn.displayConstructor = errorDisplayConstructor;
         return rtn;
+    }
+    public SbtTableRowStatus(String prefix, boolean isEdited){
+        this(prefix,"","black",isEdited);
     }
     public SbtTableRowStatus(String prefix, String toolTip, String fontColor, boolean isEdited) {
         this.prefix = prefix;

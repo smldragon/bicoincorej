@@ -27,6 +27,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import org.bitcoinj.core.NetworkParameters;
+import org.bitcoinj.core.Transaction;
 import org.bitcoinj.kits.WalletAppKit;
 import org.bitcoinj.params.MainNetParams;
 import org.bitcoinj.params.RegTestParams;
@@ -69,6 +70,8 @@ public class WalletMain extends Application {
     }
 
     private void realStart(Stage mainWindow) throws IOException {
+        Transaction t = new Transaction();
+
         this.mainWindow = mainWindow;
         instance = this;
         // Show the crash dialog for any exceptions that we don't handle and that hit the main loop.
