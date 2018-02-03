@@ -87,6 +87,7 @@ public class SbtTableView<S extends SbtTableRowData> extends TableView<S> {
 
         checkTableCellFactory();
     }
+    public static final String RowNoColTitle = "ÐòºÅ";
     private boolean rowNumbeInstalled = false;
     private TablePropertyInitializer tablePropertyInitializer;
     private TableCellsSelector tableCellsSelector;
