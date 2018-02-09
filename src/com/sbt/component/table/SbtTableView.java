@@ -9,7 +9,7 @@ import javafx.scene.control.TableView;
 
 import java.util.List;
 
-public class SbtTableView<S extends SbtTableRowData> extends TableView<S> {
+public class SbtTableView<S extends SbtTableRowData> extends TableView<S> implements SbtTableInterface<S> {
 
     @Override
     public void layoutChildren() {
@@ -51,7 +51,7 @@ public class SbtTableView<S extends SbtTableRowData> extends TableView<S> {
         tableCellsSelector = new TableCellsSelector(this);
 
         if ( null != tablePropertyInitializer) {
-            tablePropertyInitializer.initTableProperty(this);
+            tablePropertyInitializer.initTableProperties(this);
         }
 
         setTableMenuButtonVisible(true);
