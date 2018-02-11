@@ -1,5 +1,6 @@
 package com.sbt.component;
 
+import com.sbt.utils.ComponentUtil;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.layout.Pane;
@@ -18,6 +19,21 @@ public class UiInputFieldsBinder {
     private final Pane filterPane;
     private static final Logger logger = LoggerFactory.getLogger(UiInputFieldsBinder.class);
 
+    public UiInputFieldsBinder(String messageType, Pane filterPane,Node ...nodes ) {
+        this.messageType = messageType;
+        this.filterPane = null;
+        SbtLabel temp = null;
+        for(Node n: nodes) {
+            String id = n.getId();
+            if ( ComponentConstants.StatusFieldId.equals(id) && n instanceof SbtLabel) {
+                temp = (SbtLabel)n;
+            } else if ( n instanceof QueryConditionNode) {
+                elementPropertyMap.put(id, (QueryConditionNode)n);
+            }
+        }
+        statusField = temp;
+
+    }
     public UiInputFieldsBinder(String messageType, Pane filterPane,String ...elementIds ) {
         this.messageType = messageType;
         this.filterPane = filterPane;
@@ -43,5 +59,22 @@ public class UiInputFieldsBinder {
         }
         statusField = tmp;
 
+    }
+    public SbtLabel getStatusLabel() {
+        return statusField;
+    }
+    @Override
+    public boolean isSameAs(String mesg) {
+        return false;
+    }
+    public void setDisabled(boolean disabled) {
+
+        if ( null != filterPane) {
+            ComponentUtil.setDisabled(filterPane,disabled);
+        }
+
+        elementPropertyMap.values().stream().forEach( (node) -> {
+            node.setDisable(disabled);
+        });
     }
 }
