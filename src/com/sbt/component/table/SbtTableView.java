@@ -3,7 +3,7 @@ package com.sbt.component.table;
 import com.sbt.component.AsynEventExecutor;
 import com.sbt.component.ComponentConstants;
 import com.sbt.component.UiInputFieldsBinder;
-import com.sbt.utils.ComponentUtil;
+import com.sbt.component.ComponentUtil;
 import com.sun.javafx.scene.control.skin.TableColumnHeader;
 import com.sun.javafx.scene.control.skin.TableHeaderRow;
 import com.sun.javafx.scene.control.skin.TableViewSkin;
@@ -40,6 +40,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
+import java.util.function.Function;
 
 public class SbtTableView<S extends SbtTableRowData> extends TableView<S> implements SbtTableInterface<S> {
 
@@ -133,7 +134,7 @@ public class SbtTableView<S extends SbtTableRowData> extends TableView<S> implem
     public int getColumnIndex(TableColumn<S,?> tc) {
         int index = getColumns().indexOf(tc);
         if ( 0 > index ) {
-            index = ComponentUtil.getTableColumnIndexDeep(getColumns(),tc);
+            index = TableUtil.getTableColumnIndexDeep(getColumns(),tc);
         }
         return index;
     }
@@ -352,9 +353,9 @@ public class SbtTableView<S extends SbtTableRowData> extends TableView<S> implem
             }
         });
 
-        TableHeaderRow thr = Utils.getTableHeaderRow(getSkin());
+        TableHeaderRow thr = TableUtil.getTableHeaderRow((TableViewSkin<?>)getSkin());
         if ( null != thr) {
-            ContextMenu tableRowHeaderContextMenu = ComponentUtil.getContextMenu(thr);
+            ContextMenu tableRowHeaderContextMenu = TableUtil.getContextMenu(thr);
             ObservableList<MenuItem> selectionItems = tableRowHeaderContextMenu.getItems();
             tableRowHeaderContextMenu.setOnShown( (event) -> {
                 for(MenuItem item: selectionItems)  {

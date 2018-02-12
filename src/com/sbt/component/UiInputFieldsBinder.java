@@ -1,6 +1,5 @@
 package com.sbt.component;
 
-import com.sbt.utils.ComponentUtil;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.layout.Pane;
@@ -47,7 +46,7 @@ public class UiInputFieldsBinder {
             }
         }
 
-        SbtLabel tmp;
+        Node tmp;
         if ( null == filterPane) {
             tmp = null;
         } else {
@@ -57,7 +56,11 @@ public class UiInputFieldsBinder {
         if ( null == tmp && null != rootPane) {
             tmp = ComponentUtil.searchNode(rootPane,"#"+ComponentConstants.StatusFieldId);
         }
-        statusField = tmp;
+
+        if ( ! (tmp instanceof SbtLabel ) ){
+            tmp = null;
+        }
+        statusField = (SbtLabel)tmp;
 
     }
     public SbtLabel getStatusLabel() {
@@ -70,7 +73,7 @@ public class UiInputFieldsBinder {
     public void setDisabled(boolean disabled) {
 
         if ( null != filterPane) {
-            ComponentUtil.setDisabled(filterPane,disabled);
+            ComponentUtil.setDisable(filterPane,disabled);
         }
 
         elementPropertyMap.values().stream().forEach( (node) -> {
