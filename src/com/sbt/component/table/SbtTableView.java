@@ -565,7 +565,11 @@ public class SbtTableView<S extends SbtTableRowData> extends TableView<S> implem
         }
     }
     public List<TableColumn<S,?>> getLeafTableColumns() {
-        missing code;
+       List<TableColumn<S,?>> rtn = new ArrayList<>();
+       for(int i=0;i<getColumns().size();i++) {
+           addLeafColumns(rtn,getColumns().get(i));
+       }
+       return rtn;
     }
     private void addLeafColumns(List<TableColumn<S,?>> rtnList, TableColumn<S,?> tc) {
         List<TableColumn<S,?>> subColumns = tc.getColumns();
@@ -619,7 +623,7 @@ public class SbtTableView<S extends SbtTableRowData> extends TableView<S> implem
         return getColumnHeader(getColumns().get(columnIndex));
     }
     public boolean isExpandable() {
-        missing code;
+       return null != getDetailRegionCreater();
     }
     @Override
     public void edit(int row, TableColumn<S,?> column) {
@@ -661,7 +665,10 @@ public class SbtTableView<S extends SbtTableRowData> extends TableView<S> implem
     }
     @Override
     public UiInputFieldsBinder getQueryConditionPropBinder() {
-        missing code
+        if ( null == queryConditionPropBinder){
+            queryConditionPropBinder = new UiInputFieldsBinder("",null,ComponentConstants.StatusFieldId);
+        }
+        return queryConditionPropBinder;
     }
     @Override
     public void prepareLoading(String loadingPrompt) {

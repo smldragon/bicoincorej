@@ -16,7 +16,10 @@ public abstract class ComponentUtil {
     }
     public static Node searchNode(Parent parent, String nodeId) {
         Node rtn = searchNodeRecursivelyDown(parent,nodeId);
-        missing codes;
+        if ( null == rtn) {
+            rtn = searchNodeRecursivelyUp(parent,nodeId);
+        }
+        return rtn;
     }
     private static Node searchNodeRecursivelyUp(Parent parent, String nodeId) {
         Node rtn = searchNodeRecursivelyDown(parent,nodeId);
