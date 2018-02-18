@@ -40,7 +40,7 @@ public class ExpandableTableRowSkin<S extends SbtTableRowData> extends TableRowS
             if ( rowIndex >= row.getTableView().getItems().size() || rowIndex < 0) {
                 c.setStyle(" -fx-background-color: transparent; ");
             } else if ( c instanceof FormattedTableCell) {
-                ((FormattedTableCell)c).updateTableCellBackgroundColor(row.isSelected());
+                ((FormattedTableCell)c).updateTableCellBackgrdoundColor(row.isSelected());
             }
         }
     }
