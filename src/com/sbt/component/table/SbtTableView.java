@@ -239,7 +239,7 @@ public class SbtTableView<S extends SbtTableRowData> extends TableView<S> implem
         }
         return scrollToSelectedRowListener;
     }
-    public TableCellsSelector getTableCellSelector() {
+    public TableCellsSelector getTableCellsSelector() {
         return tableCellsSelector;
     }
     public void setColumnSubHeaders() {
