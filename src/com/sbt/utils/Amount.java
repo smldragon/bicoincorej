@@ -7,6 +7,9 @@ public class Amount extends Number {
 
     private final DecimalFormat formatter = new DecimalFormat(SbtConstants.AmountFormatString);
     private final Double value;
+    public Amount(Number nValue) {
+        this(nValue.doubleValue());
+    }
     public Amount(String sValue) throws ParseException {
         value = formatter.parse(sValue).doubleValue();
     }
