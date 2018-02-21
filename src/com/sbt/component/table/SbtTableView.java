@@ -264,8 +264,7 @@ public class SbtTableView<S extends SbtTableRowData> extends TableView<S> implem
             headSwappedStatus = true;
         }
         for( int i=0;i<subHeaders.size();i++) {
-            TableColumn<S,?> tc;
-            missing codes;
+            TableColumn<S,?> tc = getColumns().get(i);
             if ( ! isRowNumbercolumn(i)) {
                 String subHeader = subHeaders.get(i);
                 if ( null == subHeader || "".equals(subHeader.trim())) {
