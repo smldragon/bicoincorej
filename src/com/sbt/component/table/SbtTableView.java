@@ -63,7 +63,7 @@ public class SbtTableView<S extends SbtTableRowData> extends TableView<S> implem
     private ChangeListener<Number> scrollToSelectedRowListener;
     private boolean headSwappedStatus = false;
     private TableViewClipboardCopy<S> tableViewClipboardCopy;
-    private TableCellSelector tableCellSelector;
+    private TableCellsSelector tableCellSelector;
     private boolean toFillTableWithBlankRows = false;
     public static final String RowNoColTitle = "ÐòºÅ";
     private boolean rowNumbeColumnInstalled = false;
