@@ -36,7 +36,7 @@ public class ColumnEditingEventHandler<S extends SbtTableRowData,T> implements E
             SbtTableCacheMng.fireTableDataChanged(table);
             onEvent(event);
             S dataRow = getRowData(event);
-            dataRow.setRowStatus(SbtTableRowStatus.Edited);
+            dataRow.setRowStatusValue(SbtTableRowStatus.Edited);
             table.refresh();
         }
     }

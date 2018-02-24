@@ -327,7 +327,7 @@ public class SbtTableView<S extends SbtTableRowData> extends TableView<S> implem
             promptPlaceHolder = new Label();
             setPlaceholder(promptPlaceHolder);
         }
-        return promptPlaceHolder
+        return promptPlaceHolder;
     }
     protected void initComponents() {
 
@@ -509,7 +509,7 @@ public class SbtTableView<S extends SbtTableRowData> extends TableView<S> implem
         showPlaceHolderText(prompt);
     }
     public TableColumn<S,?> getTableColumn(String colId) {
-        missing code;
+        missing codes.
     }
     public int getTableColumnIndexById(String colId) {
         if ( null == colId) {

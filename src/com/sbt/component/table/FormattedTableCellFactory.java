@@ -2,10 +2,12 @@ package com.sbt.component.table;
 
 import com.sbt.component.ComponentUtil;
 import javafx.beans.DefaultProperty;
+import javafx.geometry.Pos;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.paint.Color;
 import javafx.util.Callback;
+import javafx.util.StringConverter;
 
 @DefaultProperty("tableCellFormatter")
 public class FormattedTableCellFactory<S extends SbtTableRowData,T> implements Callback<TableColumn<S,T>,TableCell<S,T>> {
@@ -113,5 +115,21 @@ public class FormattedTableCellFactory<S extends SbtTableRowData,T> implements C
             });
         }
         return tableCell;
+    }
+    ////////////////////////////////////////////////////////////////////////////
+    public static class FormattedCallback<S extends SbtTableRowData,T> implements Callback<TableColumn<S,T>, TableCell<S,T>> {
+
+        private final StringConverter<T> stringConverter;
+
+        public FormattedCallback(StringConverter<T> stringConverter) {
+            this.stringConverter = stringConverter;
+        }
+
+        @Override
+        public TableCell<S, T> call(TableColumn<S, T> param) {
+            final FormattedTextFieldTableCell<S,T> tableCell = new FormattedTextFieldTableCell<>(stringConverter);
+            tableCell.setAlignment(Pos.CENTER_RIGHT);
+            return tableCell;
+        }
     }
 }
