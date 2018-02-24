@@ -1,5 +1,6 @@
 package com.sbt.component.table;
 
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
@@ -67,7 +68,16 @@ public class FormattedTextFieldTableCell<S extends SbtTableRowData, T> extends T
 
                 textField.focusedProperty().addListener( (observable,oldValue,newValue) -> {
                     if ( ! newValue) {
-                        FormattedTextFieldTableCell.this.commitEdit(value);
+                        if ( null != value) {
+                            FormattedTextFieldTableCell.this.commitEdit(value);
+                            ContextMenu contextMenu = FormattedTextFieldTableCell.this.getTableView().getContextMenu();
+                            if ( contextMenu instanceof SbtTableRowContextMenu) {
+                                ((SbtTableRowContextMenu)contextMenu).setRowIndex(FormattedTextFieldTableCell.this.getIndex());
+                            } else {
+                                FormattedTextFieldTableCell.this.cancelEdit();
+                            }
+                        }
+
                     }
                 });
             }
