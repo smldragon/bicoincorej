@@ -201,6 +201,18 @@ public class SbtTableView<S extends SbtTableRowData> extends TableView<S> implem
     public void setDetailRegionCreater(Function<ExpandableTableRow<S>, Region> detailRegionCreater) {
         this.detailRegionCreater = detailRegionCreater;
     }
+    public <T> void setColumnEditable(String columnName,FormattedTableCellFactory<S,T> theColumnCellFactory) {
+        TableColumn<S,T> theColumn = (TableColumn<S,T>)getTableColumn(columnName);
+        theColumnCellFactory.setEditable(true);
+        theColumn.setCellFactory(theColumnCellFactory);
+
+        ColumnEditingEventHandler<S,T> editHandler = new ColumnEditingEventHandler<>();
+        theColumn.setOnEditCommit(editHandler);
+        theColumn.setOnEditStart(editHandler);
+
+        TableColumnHeader tch = getColumnHeader(theColumn);
+        tch.setStyle(" -fx-background-color: lightGrey;");
+    }
     @Override
     public List<TableColumn<S,?>> getTableColumns() {
         return getColumns();
