@@ -53,7 +53,7 @@ public class RowNumberCell<V extends SbtTableRowData> extends TableCell<V,String
         TableRow<?> tr = getTableRow();
         int rowIndex = tr.getIndex() + 1;
         setText(value.getText(rowIndex));
-        String toolTipText = value.getToolTip(rowIndex);
+        String toolTipText = value.getToolTip();
         if ( null != toolTipText && 0 <toolTipText.trim().length()) {
             setTooltip(new Tooltip(toolTipText));
         } else {

@@ -19,6 +19,10 @@ public abstract class SbtTableRowData implements Serializable{
             rowStatus.set(this.rowStatusValue);
         }
     }
+    public boolean toggleRowExpandStatus() {
+        isExpanded = ! isExpanded;
+        return isExpanded;
+    }
     public boolean isEdited() {
         return rowStatusValue == null?false:rowStatusValue.isEdited();
     }
@@ -27,6 +31,7 @@ public abstract class SbtTableRowData implements Serializable{
             rowStatus = new SimpleObjectProperty<>(rowStatusValue);
         }
     }
+    private boolean isExpanded = false;
     private SbtTableRowStatus rowStatusValue = SbtTableRowStatus.Normal;
     private transient ObjectProperty<SbtTableRowStatus> rowStatus;
 }
