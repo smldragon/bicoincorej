@@ -2,8 +2,8 @@ package com.sbt.component.table;
 
 import com.sbt.component.AsynEventExecutor;
 import com.sbt.component.ComponentConstants;
-import com.sbt.component.UiInputFieldsBinder;
 import com.sbt.component.ComponentUtil;
+import com.sbt.component.UiInputFieldsBinder;
 import com.sun.javafx.scene.control.skin.TableColumnHeader;
 import com.sun.javafx.scene.control.skin.TableHeaderRow;
 import com.sun.javafx.scene.control.skin.TableViewSkin;
@@ -73,6 +73,7 @@ public class SbtTableView<S extends SbtTableRowData> extends TableView<S> implem
     private Callback<MouseEvent,Void> rowSelectCallback;
     private Label promptPlaceHolder;
     private static final Logger logger = LoggerFactory.getLogger(SbtTableView.class);
+    private static final String editableColumnHeaderStyle = " -fx-background-color: lightGrey;";
 
     public SbtTableView() {
         this(true, null);
@@ -201,6 +202,18 @@ public class SbtTableView<S extends SbtTableRowData> extends TableView<S> implem
     public void setDetailRegionCreater(Function<ExpandableTableRow<S>, Region> detailRegionCreater) {
         this.detailRegionCreater = detailRegionCreater;
     }
+    public void setEditableComboBoxColumn(String columnName, String ... comboboxValues) {
+        TableColumn<S,String> theColumn = (TableColumn<S,String>)getTableColumn(columnName);
+        if ( null == comboboxValues) {
+            comboboxValues = new String [] {""};
+        }
+        ComboBoxTableCellFactory<S> theColumnCellFactory = new ComboBoxTableCellFactory<>(comboboxValues);
+        theColumn.setCellFactory(theColumnCellFactory);
+
+        TableColumnHeader tch = getColumnHeader(theColumn);
+        tch.setStyle(editableColumnHeaderStyle);
+        theColumn.setOnEditCommit( new ColumnEditingEventHandler());
+    }
     public <T> void setColumnEditable(String columnName,FormattedTableCellFactory<S,T> theColumnCellFactory) {
         TableColumn<S,T> theColumn = (TableColumn<S,T>)getTableColumn(columnName);
         theColumnCellFactory.setEditable(true);
@@ -211,7 +224,7 @@ public class SbtTableView<S extends SbtTableRowData> extends TableView<S> implem
         theColumn.setOnEditStart(editHandler);
 
         TableColumnHeader tch = getColumnHeader(theColumn);
-        tch.setStyle(" -fx-background-color: lightGrey;");
+        tch.setStyle(editableColumnHeaderStyle);
     }
     @Override
     public List<TableColumn<S,?>> getTableColumns() {
@@ -394,7 +407,7 @@ public class SbtTableView<S extends SbtTableRowData> extends TableView<S> implem
             if ( null == tc.getCellValueFactory()) {
                 String fieldName = tc.getId();
                 if ( null == fieldName) {
-                    fieldName = ModelUtils.convertToCamelString(tc.getText());
+                    fieldName = ComponentUtil.convertToCamelString(tc.getText());
                 }
                 if ( null == fieldName) {
                     Exception e = new Exception("Without FormattedTableCellFactory assigned to the TableColumn, " +
@@ -423,8 +436,8 @@ public class SbtTableView<S extends SbtTableRowData> extends TableView<S> implem
         ContextMenu contextMenu = initContextMenu();
         for(MenuItem item: items) {
             contextMenu.getItems().add(item);
-            if ( contextMenu instanceof SbtTableRowContextMenu && item instanceof RowIndexChangeListener ) {
-                ((SbtTableRowContextMenu)contextMenu).addRowIndexChangedListener((RowIndexChangeListener)item);
+            if ( contextMenu instanceof SbtTableRowContextMenu && item instanceof SbtTableRowContextMenu.RowIndexChangeListener) {
+                ((SbtTableRowContextMenu)contextMenu).addRowIndexChangedListener((SbtTableRowContextMenu.RowIndexChangeListener)item);
             }
         }
     }
@@ -521,7 +534,9 @@ public class SbtTableView<S extends SbtTableRowData> extends TableView<S> implem
         showPlaceHolderText(prompt);
     }
     public TableColumn<S,?> getTableColumn(String colId) {
-        missing codes.
+        return getColumns().stream().filter( (tableColumn) -> {
+            return null == tableColumn.getId()?false:tableColumn.getId().equalsIgnoreCase(colId);
+        }).findFirst().get();
     }
     public int getTableColumnIndexById(String colId) {
         if ( null == colId) {

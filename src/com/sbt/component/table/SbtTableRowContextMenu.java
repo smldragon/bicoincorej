@@ -2,6 +2,7 @@ package com.sbt.component.table;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ChangeListener;
+import javafx.collections.ObservableList;
 import javafx.scene.control.ContextMenu;
 
 import java.util.ArrayList;
@@ -34,6 +35,6 @@ public class SbtTableRowContextMenu<S extends SbtTableRowData> extends ContextMe
     }
 //////////////////////////////////////////////////////////////////////////
     public interface RowIndexChangeListener extends ChangeListener<Number> {
-
+        void change(ObservableList<? extends Number> observable, Number oldValue, Number newValue);
     }
 }
