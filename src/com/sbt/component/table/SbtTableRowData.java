@@ -19,6 +19,9 @@ public abstract class SbtTableRowData implements Serializable{
             rowStatus.set(this.rowStatusValue);
         }
     }
+    public boolean isExpanded() {
+        return isExpanded;
+    }
     public boolean toggleRowExpandStatus() {
         isExpanded = ! isExpanded;
         return isExpanded;
