@@ -15,7 +15,7 @@ public interface SbtTableInterface<T extends SbtTableRowData> {
     void setItems(List<T> items);
     List<T> getItems();
     UiInputFieldsBinder getQueryConditionPropBinder();
-    void setDisabled(boolean disabled);
+    void setDisable(boolean disabled);
     void setCursor(Cursor cursor);
     String getId();
     boolean isCacheable();

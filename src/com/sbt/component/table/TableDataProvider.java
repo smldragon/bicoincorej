@@ -103,7 +103,7 @@ public class TableDataProvider<T extends SbtTableRowData> implements AsynEventHa
             ((Node) invokingObject).setCursor(cursor);
         }
 
-        table.setDisabled(disabled);
+        table.setDisable(disabled);
         table.setCursor(cursor);
 
         UiInputFieldsBinder binder = table.getQueryConditionPropBinder();

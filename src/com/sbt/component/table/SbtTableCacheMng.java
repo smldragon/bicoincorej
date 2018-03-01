@@ -37,7 +37,7 @@ public abstract class SbtTableCacheMng {
 
     static {
         CacheRoot = System.getProperty("java.io.tmpdir")+ File.pathSeparator+"_SBT"+File.pathSeparator+"_TableCache";
-        SbtApplication.addShutDownTask( ()-> {SbtTableCacheMng.saveAll();});
+//        SbtApplication.addShutDownTask( ()-> {SbtTableCacheMng.saveAll();});
     }
     public static void saveAll() {
         saveTableColumnConfigForAllTables();

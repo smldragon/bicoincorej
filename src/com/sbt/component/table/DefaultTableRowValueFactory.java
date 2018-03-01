@@ -7,9 +7,10 @@ import javafx.util.Callback;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.Serializable;
 import java.lang.reflect.Field;
 
-public class DefaultTableRowValueFactory<S,T> implements Callback<TableColumn.CellDataFeatures<DefaultTableRowData<S>,T>,ObservableValue<T>> {
+public class DefaultTableRowValueFactory<S extends Serializable,T> implements Callback<TableColumn.CellDataFeatures<DefaultTableRowData<S>,T>,ObservableValue<T>> {
 
     private static final Logger logger = LoggerFactory.getLogger(DefaultTableRowValueFactory.class);
     private final String fieldName;

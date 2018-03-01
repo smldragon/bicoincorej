@@ -3,6 +3,7 @@ package com.sbt.component.table;
 import com.sbt.component.AsynEventExecutor;
 import com.sbt.component.ComponentConstants;
 import com.sbt.component.ComponentUtil;
+import com.sbt.component.NodeDataLoader;
 import com.sbt.component.UiInputFieldsBinder;
 import com.sun.javafx.scene.control.skin.TableColumnHeader;
 import com.sun.javafx.scene.control.skin.TableHeaderRow;
@@ -42,7 +43,7 @@ import java.util.Set;
 import java.util.Vector;
 import java.util.function.Function;
 
-public class SbtTableView<S extends SbtTableRowData> extends TableView<S> implements SbtTableInterface<S> {
+public class SbtTableView<S extends SbtTableRowData> extends TableView<S> implements NodeDataLoader,SbtTableInterface<S> {
 
     private final ObjectProperty<SecondHeaderLineProp> secondHeaderLineProperty = new SimpleObjectProperty<>();
     private boolean hasRowNumberColumn = true;
@@ -188,6 +189,12 @@ public class SbtTableView<S extends SbtTableRowData> extends TableView<S> implem
         }
         initStatus = true;
 
+    }
+    protected void restoreFromCache() {
+        SbtTableCacheMng.restoreTableColumnConfig(this);
+        if ( isCacheable) {
+            SbtTableCacheMng.restoreTable(this);
+        }
     }
     public TablePropertyInitializer getTablePropertyInitializer() {
         return tablePropertyInitializer;
@@ -661,8 +668,12 @@ public class SbtTableView<S extends SbtTableRowData> extends TableView<S> implem
         boolean editable = true;
         if ( RowNoColTitle.equals(column.getText())) {
             editable = false;
-        } else if ( null != column.getCellFactory() && column.getCellFactory() instanceof EditableCellFactory ) {
-            editable = ((EditableCellFactory)column.getCellFactory()).isEditable(row);
+        }
+//        else if ( null != column.getCellFactory() && column.getCellFactory() instanceof EditableCellFactory ) {
+////            editable = ((EditableCellFactory)column.getCellFactory()).isEditable(row);
+////        }
+        else {
+            editable = 0 <= row && row < this.getItems().size();
         }
 
         if ( editable) {
