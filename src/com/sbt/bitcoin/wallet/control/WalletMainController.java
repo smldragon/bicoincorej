@@ -121,11 +121,11 @@ public class WalletMainController implements Initializable {
 
     public void sendMoneyOut(ActionEvent event) {
         // Hide this UI and show the send money UI. This UI won't be clickable until the user dismisses send_money.
-        WalletMain.instance.overlayUI("send_money.fxml");
+        WalletMain.instance.overlayUI(Constants.sendMoneyFxml);
     }
     @FXML
     public void settingsClicked(ActionEvent event) {
-        WalletMain.OverlayUI<WalletSettingsController> screen = WalletMain.instance.overlayUI("walletSettings.fxml");
+        WalletMain.OverlayUI<WalletSettingsController> screen = WalletMain.instance.overlayUI(Constants.walletSettingsFxml);
         screen.controller.initialize(null);
     }
 

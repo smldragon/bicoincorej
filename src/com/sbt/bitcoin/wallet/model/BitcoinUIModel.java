@@ -49,6 +49,21 @@ public class BitcoinUIModel {
                 update(wallet);
             }
         });
+
+        wallet.addCoinsReceivedEventListener(Platform::runLater, (walletObj, transaction, prevBitCoinBalance, newBitCoinBalance) -> {
+            /**
+             *  receivedCoinValue = newBitCoinBalance - prevBitCoinBalance -- XFZ@2018-03-25
+             */
+            System.out.println("Coin Received: walletObj="+walletObj+", transaction="+transaction+", prevBitCoinBalance="+prevBitCoinBalance+", newBalance="+newBitCoinBalance);
+            update(walletObj);
+        });
+        wallet.addCoinsSentEventListener(Platform::runLater, (walletObj, transaction, prevBitCoinBalance, newBitCoinBalance) -> {
+            /**
+             *  receivedCoinValue = newBitCoinBalance - prevBitCoinBalance -- XFZ@2018-03-25
+             */
+            System.out.println("Coin Sent: walletObj="+walletObj+", transaction="+transaction+", prevBitCoinBalance="+prevBitCoinBalance+", newBalance="+newBitCoinBalance);
+            update(walletObj);
+        });
         update(wallet);
     }
 

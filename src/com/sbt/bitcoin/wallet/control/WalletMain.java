@@ -14,6 +14,7 @@ package com.sbt.bitcoin.wallet.control;
  * limitations under the License.
  */
 
+import com.google.common.io.BaseEncoding;
 import com.google.common.util.concurrent.Service;
 import com.sbt.bitcoin.wallet.view.NotificationBarPane;
 import com.sbt.bitcoin.wallet.view.TextFieldValidator;
@@ -26,10 +27,11 @@ import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import org.bitcoinj.core.ECKey;
 import org.bitcoinj.core.NetworkParameters;
 import org.bitcoinj.core.Transaction;
 import org.bitcoinj.kits.WalletAppKit;
-import org.bitcoinj.params.MainNetParams;
+import org.bitcoinj.net.discovery.HttpDiscovery;
 import org.bitcoinj.params.RegTestParams;
 import org.bitcoinj.params.TestNet3Params;
 import org.bitcoinj.utils.BriefLogFormatter;
@@ -39,13 +41,18 @@ import org.bitcoinj.wallet.DeterministicSeed;
 import javax.annotation.Nullable;
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.net.URL;
 
 import static com.sbt.bitcoin.wallet.control.GuiUtils.*;
 
 
 public class WalletMain extends Application {
-    public static NetworkParameters params = MainNetParams.get();
+//    public static NetworkParameters params = MainNetParams.get(); //The main or ¡°production¡± network where people buy and sell things
+    public static NetworkParameters params = TestNet3Params.get(); //The public test network (testnet) which is reset from time to time and exists for us to play about with new features.
+//    public static NetworkParameters params = RegTestParams.get(); //Regression test mode, which is not a public network and requires you to run a bitcoin daemon with the -regtest flag yourself.
+
+    public static final String WalletPath = "c:\\BitCoinBlocks"; //".";
     public static final String APP_NAME = "WalletTemplate";
     private static final String WALLET_FILE_NAME = APP_NAME.replaceAll("[^a-zA-Z0-9.-]", "_") + "-"
             + params.getPaymentProtocolId();
@@ -70,7 +77,9 @@ public class WalletMain extends Application {
     }
 
     private void realStart(Stage mainWindow) throws IOException {
-        Transaction t = new Transaction();
+
+        NetworkParameters networkParameters = params;
+        Transaction t = new Transaction(networkParameters);
 
         this.mainWindow = mainWindow;
         instance = this;
@@ -127,6 +136,7 @@ public class WalletMain extends Application {
                 GuiUtils.crashAlert(failure);
             }
         }, Platform::runLater);
+
         bitcoin.startAsync();
 
         scene.getAccelerators().put(KeyCombination.valueOf("Shortcut+F"), () -> bitcoin.peerGroup().getDownloadPeer().close());
@@ -134,7 +144,7 @@ public class WalletMain extends Application {
 
     public void setupWalletKit(@Nullable DeterministicSeed seed) {
         // If seed is non-null it means we are restoring from backup.
-        bitcoin = new WalletAppKit(params, new File("."), WALLET_FILE_NAME) {
+        bitcoin = new WalletAppKit(params, new File(WalletPath), WALLET_FILE_NAME) {
             @Override
             protected void onSetupCompleted() {
                 // Don't make the user wait for confirmations for now, as the intention is they're sending it
@@ -148,15 +158,22 @@ public class WalletMain extends Application {
         if (params == RegTestParams.get()) {
             bitcoin.connectToLocalHost();   // You should run a regtest mode bitcoind locally.
         } else if (params == TestNet3Params.get()) {
-            // As an example!
-            bitcoin.useTor();
-            // bitcoin.setDiscovery(new HttpDiscovery(params, URI.create("http://localhost:8080/peers"), ECKey.fromPublicOnly(BaseEncoding.base16().decode("02cba68cfd0679d10b186288b75a59f9132b1b3e222f6332717cb8c4eb2040f940".toUpperCase()))));
+//            configTor();
         }
-        bitcoin.setDownloadListener(controller.progressBarUpdater())
-                .setBlockingStartup(false)
-                .setUserAgent(APP_NAME, "1.0");
-        if (seed != null)
+        bitcoin.setDownloadListener(controller.progressBarUpdater()).setBlockingStartup(false).setUserAgent(APP_NAME, "1.0");
+
+        if (seed != null) {
             bitcoin.restoreWalletFromSeed(seed);
+        }
+    }
+    private void configTor() {
+        // As an example!
+        bitcoin.useTor();
+
+        byte[] bytes = BaseEncoding.base16().decode("02cba68cfd0679d10b186288b75a59f9132b1b3e222f6332717cb8c4eb2040f940".toUpperCase());
+        ECKey ecKey = ECKey.fromPublicOnly(bytes);
+        URI  localPeersUri = URI.create("http://localhost:8080/peers");
+        bitcoin.setDiscovery(new HttpDiscovery(params,localPeersUri , ecKey));
     }
 
     private Node stopClickPane = new Pane();

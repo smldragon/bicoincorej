@@ -117,7 +117,7 @@ public class SendMoneyController {
             // We only get here if the user found the right password. If they don't or they cancel, we end up back on
             // the main UI screen. By now the send money screen is history so we must recreate it.
             checkGuiThread();
-            WalletMain.OverlayUI<SendMoneyController> screen = WalletMain.instance.overlayUI("send_money.fxml");
+            WalletMain.OverlayUI<SendMoneyController> screen = WalletMain.instance.overlayUI(Constants.sendMoneyFxml);
             screen.controller.aesKey = cur;
             screen.controller.address.setText(addressStr);
             screen.controller.amountEdit.setText(amountStr);
