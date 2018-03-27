@@ -65,10 +65,11 @@ public class WalletMainController implements Initializable {
     public void onBitcoinSetup() {
         model.setWallet(bitcoin.wallet());
         addressControl.addressProperty().bind(model.addressProperty());
-//        balance.textProperty().bind(EasyBind.map(model.balanceProperty(), coin -> {
-//            return MonetaryFormat.BTC.noCode().format(coin).toString();
-//        }));
         balance.textProperty().bind(new StringBinding() {
+
+            {
+                bind(model.balanceProperty());
+            }
             @Override
             protected String computeValue() {
                 return MonetaryFormat.BTC.noCode().format(model.balanceProperty().get()).toString();
