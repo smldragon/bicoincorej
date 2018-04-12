@@ -26,8 +26,10 @@ public class TableCellsSelector<S extends SbtTableRowData> {
         this.fxTable = fxTable;
     }
     public void setMouseLocation(MouseEvent event) {
-        TableCell<S,?> tc = (TableCell<S,?>)event.getSource();
-        mouseLocation = new MouseLocation<S>(tc);
+        if ( event.getSource() instanceof TableCell) {
+            TableCell<S, ?> tc = (TableCell<S, ?>) event.getSource();
+            mouseLocation = new MouseLocation<S>(tc);
+        }
     }
     public void onMouseReleased(MouseEvent event) {
         if ( Mode.Column.equals(mode) && event.getButton().equals(MouseButton.PRIMARY)) {

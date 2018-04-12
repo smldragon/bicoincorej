@@ -253,8 +253,9 @@ public class WalletMain extends Application {
             OverlayUI<T> pair = new OverlayUI<T>(ui, controller);
             // Auto-magically set the overlayUI member, if it's there.
             try {
-                if (controller != null)
+                if (controller != null) {
                     controller.getClass().getField("overlayUI").set(controller, pair);
+                }
             } catch (IllegalAccessException | NoSuchFieldException ignored) {
                 ignored.printStackTrace();
             }

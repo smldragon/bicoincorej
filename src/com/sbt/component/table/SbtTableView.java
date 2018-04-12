@@ -170,7 +170,7 @@ public class SbtTableView<S extends SbtTableRowData> extends TableView<S> implem
     }
     @Override
     public void layoutChildren() {
-
+        List<TableColumn<S,?>> columns = getColumns();
         if ( !initStatus) {
             initComponents();
         }

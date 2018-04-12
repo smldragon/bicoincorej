@@ -95,9 +95,12 @@ public class FormattedTableCellFactory<S extends SbtTableRowData,T> implements C
             tableCell.setEditable(isEditable);
             SbtTableView<S> table = (SbtTableView<S>)p.getTableView();
             tableCell.updateTableView(table);
-            table.setOnMousePressed(table.getTableCellsSelector().getMousePressedHandler());
-            table.setOnDragDetected(table.getTableCellsSelector().getMouseEventHandler());
-            table.setOnMouseDragEntered(table.getTableCellsSelector().getMouseDragEventHandler());
+            TableCellsSelector tableCellSelector = table.getTableCellsSelector();
+            if ( null != tableCellSelector) {
+                table.setOnMousePressed(tableCellSelector.getMousePressedHandler());
+                table.setOnDragDetected(tableCellSelector.getMouseEventHandler());
+                table.setOnMouseDragEntered(tableCellSelector.getMouseDragEventHandler());
+            }
             table.setOnMouseReleased((mouseEvent) -> {
                 table.getTableCellsSelector().setMouseLocation(mouseEvent);
                 table.getTableCellsSelector().onMouseReleased(mouseEvent);

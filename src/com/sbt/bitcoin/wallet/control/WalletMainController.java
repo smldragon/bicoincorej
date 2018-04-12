@@ -47,7 +47,7 @@ import static com.sbt.bitcoin.wallet.control.WalletMain.bitcoin;
 public class WalletMainController implements Initializable {
     public HBox controlsBox;
     public Label balance;
-    public Button sendMoneyOutBtn;
+    @FXML private Button sendMoneyOutBtn;
     public ClickableBitcoinAddress addressControl;
 
     private BitcoinUIModel model = new BitcoinUIModel();
@@ -129,7 +129,10 @@ public class WalletMainController implements Initializable {
         WalletMain.OverlayUI<WalletSettingsController> screen = WalletMain.instance.overlayUI(Constants.walletSettingsFxml);
         screen.controller.initialize(null);
     }
-
+    @FXML
+    public void showKeysTable(ActionEvent event) {
+        WalletMain.instance.overlayUI(Constants.showKeyTableFxml);
+    }
     public void restoreFromSeedAnimation() {
         // Buttons slide out ...
         TranslateTransition leave = new TranslateTransition(Duration.millis(1200), controlsBox);
