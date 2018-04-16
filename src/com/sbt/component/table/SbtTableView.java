@@ -77,9 +77,12 @@ public class SbtTableView<S extends SbtTableRowData> extends TableView<S> implem
     private static final String editableColumnHeaderStyle = " -fx-background-color: lightGrey;";
 
     public SbtTableView() {
-        this(true, null);
+//        this(true, null);
+        hasRowNumberColumn = true;
+        secondHeaderLineProperty.set(null);
+
     }
-    public SbtTableView(@NamedArg("hasRowNumberColumn")boolean hasRowNumberColumn,@NamedArg("secondHeaderLineProperty")SecondHeaderLineProp secondHeaderLineValue){
+    public SbtTableView(@NamedArg("hasRowNumberColumn")boolean hasRowNumberColumn, @NamedArg("secondHeaderLineProperty")SecondHeaderLineProp secondHeaderLineValue){
         this.hasRowNumberColumn = hasRowNumberColumn;
         this.secondHeaderLineProperty.set(secondHeaderLineValue);
     }
