@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.sbt.component.table.SbtTableView2?>
+<?import com.sbt.component.table.SbtTableView?>
 <?import com.sbt.component.table.SecondHeaderLineProp?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
@@ -13,7 +13,7 @@
           prefHeight="700.0" prefWidth="900.0" style="" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
           fx:controller="com.sbt.bitcoin.wallet.control.ShowKeyTableController">
     <children>
-        <SbtTableView2 fx:id="keysTable" layoutY="100.0" prefHeight="600.0" prefWidth="800.0" GridPane.columnIndex="0" GridPane.rowIndex="0" >
+        <SbtTableView fx:id="keysTable" layoutY="100.0" prefHeight="600.0" prefWidth="800.0" GridPane.columnIndex="0" GridPane.rowIndex="0" >
             <hasRowNumberColumn><Boolean fx:value="true" /></hasRowNumberColumn>
             <secondHeaderLineProperty ><SecondHeaderLineProp /></secondHeaderLineProperty>
             <placeholder>
@@ -39,7 +39,7 @@
                     </cellValueFactory>
                 </TableColumn>
             </columns>
-        </SbtTableView2>
+        </SbtTableView>
         <Button fx:id="cancelBtn" cancelButton="true" mnemonicParsing="false" onAction="#close" prefWidth="79.0" text="Close"
                 GridPane.halignment="CENTER" GridPane.valignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
 

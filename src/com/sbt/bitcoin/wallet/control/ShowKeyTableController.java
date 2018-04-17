@@ -15,7 +15,7 @@ package com.sbt.bitcoin.wallet.control;
  */
 
 import com.sbt.component.table.SbtTableRowData;
-import com.sbt.component.table.SbtTableView2;
+import com.sbt.component.table.SbtTableView;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import org.bitcoinj.wallet.DeterministicKeyChain;
@@ -29,7 +29,7 @@ import static com.sbt.bitcoin.wallet.control.WalletMain.bitcoin;
 public class ShowKeyTableController implements Initializable{
 
     public WalletMain.OverlayUI overlayUI;
-    @FXML private SbtTableView2<PPKeysAddress> keysTable;
+    @FXML private SbtTableView<PPKeysAddress> keysTable;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         show();
