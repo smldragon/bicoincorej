@@ -26,15 +26,21 @@ import javafx.beans.binding.StringBinding;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.bitcoinj.core.Coin;
 import org.bitcoinj.core.listeners.DownloadProgressTracker;
 import org.bitcoinj.utils.MonetaryFormat;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -131,7 +137,23 @@ public class WalletMainController implements Initializable {
     }
     @FXML
     public void showKeysTable(ActionEvent event) {
-        WalletMain.instance.overlayUI(Constants.showKeyTableFxml);
+//        WalletMain.instance.overlayUI(Constants.showKeyTableFxml);
+
+        try {
+            final Stage dialog = new Stage();
+            dialog.initModality(Modality.APPLICATION_MODAL);
+            dialog.initOwner(WalletMain.instance.mainWindow);
+
+            URL location = GuiUtils.getResource(Constants.showKeyTableFxml);
+            FXMLLoader loader = new FXMLLoader(location);
+            Pane ui = loader.load();
+
+            Scene dialogScene = new Scene(ui, 800, 600);
+            dialog.setScene(dialogScene);
+            dialog.show();
+        }catch(IOException io) {
+            io.printStackTrace();
+        }
     }
     public void restoreFromSeedAnimation() {
         // Buttons slide out ...

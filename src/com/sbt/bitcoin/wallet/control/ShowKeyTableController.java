@@ -18,9 +18,11 @@ import com.sbt.component.table.SbtTableRowData;
 import com.sbt.component.table.SbtTableView;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import org.bitcoinj.core.ECKey;
 import org.bitcoinj.wallet.DeterministicKeyChain;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import static com.sbt.bitcoin.wallet.control.GuiUtils.checkGuiThread;
@@ -40,12 +42,16 @@ public class ShowKeyTableController implements Initializable{
     }
     private void show() {
         DeterministicKeyChain keyChain = bitcoin.wallet().getActiveKeyChain();
-        System.out.println("issuedExternalKeys:"+keyChain.getIssuedExternalKeys()+", IssuedInternal:"+keyChain.getIssuedInternalKeys()+", receivekey="+keyChain.getIssuedReceiveKeys());
-        for (int i=0;i<100;i++) {
+//        System.out.println("issuedExternalKeys:"+keyChain.getIssuedExternalKeys()+", IssuedInternal:"+keyChain.getIssuedInternalKeys()+", receivekey="+keyChain.getIssuedReceiveKeys());
+        List<ECKey> ecKeyList = keyChain.getIssuedReceiveKeys();
+        for ( ECKey ecKey: ecKeyList) {
+            String pubKey = ecKey.getPublicKeyAsHex();
+            String privateKey = ecKey.getPrivateKeyAsHex();
+            String address = ecKey.toAddress(WalletMain.params).toString();
             PPKeysAddress rowData = new PPKeysAddress();
-            rowData.setAddress("address"+i);
-            rowData.setPrivateKey("privateKey"+i);
-            rowData.setPublicKey("publicKey"+i);
+            rowData.setAddress(address);
+            rowData.setPrivateKey(privateKey);
+            rowData.setPublicKey(pubKey);
             keysTable.getItems().add(rowData);
         }
     }
